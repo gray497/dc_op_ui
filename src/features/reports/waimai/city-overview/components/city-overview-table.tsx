@@ -63,6 +63,7 @@ function getPinnedStyle(column: Column<CityOverviewRow>): React.CSSProperties {
     position: 'sticky',
     left: `${column.getStart('left')}px`,
     zIndex: 3,
+    backgroundColor: 'hsl(var(--background))',
   }
 }
 
@@ -77,6 +78,7 @@ function getGroupHeaderPinnedStyle(
     position: 'sticky',
     left: `${leafColumns[0].getStart('left')}px`,
     zIndex: 3,
+    backgroundColor: 'hsl(var(--background))',
   }
 }
 
@@ -85,16 +87,15 @@ function getPinnedClass(
   isLastPinned: boolean
 ): string {
   if (!column.getIsPinned()) return ''
-  return cn('bg-background', isLastPinned && 'shadow-[2px_0_4px_-2px_rgba(0,0,0,0.15)]')
+  // 背景色通过 inline style 设置，这里只处理阴影分隔线
+  return isLastPinned ? 'shadow-[2px_0_4px_-2px_rgba(0,0,0,0.15)]' : ''
 }
 
 function getGroupHeaderPinnedClass(
-  header: import('@tanstack/react-table').Header<CityOverviewRow, unknown>
+  _header: import('@tanstack/react-table').Header<CityOverviewRow, unknown>
 ): string {
-  const leafColumns = header.column.getLeafColumns()
-  if (leafColumns.length === 0) return ''
-  const allPinned = leafColumns.every((col) => col.getIsPinned() === 'left')
-  return allPinned ? 'bg-background' : ''
+  // 背景色通过 inline style 设置
+  return ''
 }
 
 // ── 单个 Tab 的表格 ───────────────────────────────────────────────────────────

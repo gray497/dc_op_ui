@@ -28,6 +28,7 @@ import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authen
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
 import { Route as AuthenticatedTasksIndexRouteImport } from './routes/_authenticated/tasks/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
+import { Route as AuthenticatedReportsIndexRouteImport } from './routes/_authenticated/reports/index'
 import { Route as AuthenticatedHelpCenterIndexRouteImport } from './routes/_authenticated/help-center/index'
 import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
 import { Route as AuthenticatedAppsIndexRouteImport } from './routes/_authenticated/apps/index'
@@ -39,6 +40,14 @@ import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_auth
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
+import { Route as AuthenticatedReportsWaimaiMerchantPnlIndexRouteImport } from './routes/_authenticated/reports/waimai/merchant-pnl/index'
+import { Route as AuthenticatedReportsWaimaiMerchantFeeIndexRouteImport } from './routes/_authenticated/reports/waimai/merchant-fee/index'
+import { Route as AuthenticatedReportsWaimaiCitySubsidyIndexRouteImport } from './routes/_authenticated/reports/waimai/city-subsidy/index'
+import { Route as AuthenticatedReportsWaimaiCityOverviewIndexRouteImport } from './routes/_authenticated/reports/waimai/city-overview/index'
+import { Route as AuthenticatedReportsWaimaiAreaSubsidyIndexRouteImport } from './routes/_authenticated/reports/waimai/area-subsidy/index'
+import { Route as AuthenticatedReportsWaimaiAreaFeeIndexRouteImport } from './routes/_authenticated/reports/waimai/area-fee/index'
+import { Route as AuthenticatedReportsCityOperationShareholderPnlIndexRouteImport } from './routes/_authenticated/reports/city-operation/shareholder-pnl/index'
+import { Route as AuthenticatedReportsCityOperationDataDownloadIndexRouteImport } from './routes/_authenticated/reports/city-operation/data-download/index'
 
 const ClerkRouteRoute = ClerkRouteRouteImport.update({
   id: '/clerk',
@@ -134,6 +143,12 @@ const AuthenticatedSettingsIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
   } as any)
+const AuthenticatedReportsIndexRoute =
+  AuthenticatedReportsIndexRouteImport.update({
+    id: '/reports/',
+    path: '/reports/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedHelpCenterIndexRoute =
   AuthenticatedHelpCenterIndexRouteImport.update({
     id: '/help-center/',
@@ -196,6 +211,54 @@ const AuthenticatedErrorsErrorRoute =
     path: '/errors/$error',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedReportsWaimaiMerchantPnlIndexRoute =
+  AuthenticatedReportsWaimaiMerchantPnlIndexRouteImport.update({
+    id: '/reports/waimai/merchant-pnl/',
+    path: '/reports/waimai/merchant-pnl/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedReportsWaimaiMerchantFeeIndexRoute =
+  AuthenticatedReportsWaimaiMerchantFeeIndexRouteImport.update({
+    id: '/reports/waimai/merchant-fee/',
+    path: '/reports/waimai/merchant-fee/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedReportsWaimaiCitySubsidyIndexRoute =
+  AuthenticatedReportsWaimaiCitySubsidyIndexRouteImport.update({
+    id: '/reports/waimai/city-subsidy/',
+    path: '/reports/waimai/city-subsidy/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedReportsWaimaiCityOverviewIndexRoute =
+  AuthenticatedReportsWaimaiCityOverviewIndexRouteImport.update({
+    id: '/reports/waimai/city-overview/',
+    path: '/reports/waimai/city-overview/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedReportsWaimaiAreaSubsidyIndexRoute =
+  AuthenticatedReportsWaimaiAreaSubsidyIndexRouteImport.update({
+    id: '/reports/waimai/area-subsidy/',
+    path: '/reports/waimai/area-subsidy/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedReportsWaimaiAreaFeeIndexRoute =
+  AuthenticatedReportsWaimaiAreaFeeIndexRouteImport.update({
+    id: '/reports/waimai/area-fee/',
+    path: '/reports/waimai/area-fee/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedReportsCityOperationShareholderPnlIndexRoute =
+  AuthenticatedReportsCityOperationShareholderPnlIndexRouteImport.update({
+    id: '/reports/city-operation/shareholder-pnl/',
+    path: '/reports/city-operation/shareholder-pnl/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedReportsCityOperationDataDownloadIndexRoute =
+  AuthenticatedReportsCityOperationDataDownloadIndexRouteImport.update({
+    id: '/reports/city-operation/data-download/',
+    path: '/reports/city-operation/data-download/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
@@ -222,9 +285,18 @@ export interface FileRoutesByFullPath {
   '/apps/': typeof AuthenticatedAppsIndexRoute
   '/chats/': typeof AuthenticatedChatsIndexRoute
   '/help-center/': typeof AuthenticatedHelpCenterIndexRoute
+  '/reports/': typeof AuthenticatedReportsIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/tasks/': typeof AuthenticatedTasksIndexRoute
   '/users/': typeof AuthenticatedUsersIndexRoute
+  '/reports/city-operation/data-download/': typeof AuthenticatedReportsCityOperationDataDownloadIndexRoute
+  '/reports/city-operation/shareholder-pnl/': typeof AuthenticatedReportsCityOperationShareholderPnlIndexRoute
+  '/reports/waimai/area-fee/': typeof AuthenticatedReportsWaimaiAreaFeeIndexRoute
+  '/reports/waimai/area-subsidy/': typeof AuthenticatedReportsWaimaiAreaSubsidyIndexRoute
+  '/reports/waimai/city-overview/': typeof AuthenticatedReportsWaimaiCityOverviewIndexRoute
+  '/reports/waimai/city-subsidy/': typeof AuthenticatedReportsWaimaiCitySubsidyIndexRoute
+  '/reports/waimai/merchant-fee/': typeof AuthenticatedReportsWaimaiMerchantFeeIndexRoute
+  '/reports/waimai/merchant-pnl/': typeof AuthenticatedReportsWaimaiMerchantPnlIndexRoute
 }
 export interface FileRoutesByTo {
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
@@ -250,9 +322,18 @@ export interface FileRoutesByTo {
   '/apps': typeof AuthenticatedAppsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
+  '/reports': typeof AuthenticatedReportsIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/reports/city-operation/data-download': typeof AuthenticatedReportsCityOperationDataDownloadIndexRoute
+  '/reports/city-operation/shareholder-pnl': typeof AuthenticatedReportsCityOperationShareholderPnlIndexRoute
+  '/reports/waimai/area-fee': typeof AuthenticatedReportsWaimaiAreaFeeIndexRoute
+  '/reports/waimai/area-subsidy': typeof AuthenticatedReportsWaimaiAreaSubsidyIndexRoute
+  '/reports/waimai/city-overview': typeof AuthenticatedReportsWaimaiCityOverviewIndexRoute
+  '/reports/waimai/city-subsidy': typeof AuthenticatedReportsWaimaiCitySubsidyIndexRoute
+  '/reports/waimai/merchant-fee': typeof AuthenticatedReportsWaimaiMerchantFeeIndexRoute
+  '/reports/waimai/merchant-pnl': typeof AuthenticatedReportsWaimaiMerchantPnlIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -283,9 +364,18 @@ export interface FileRoutesById {
   '/_authenticated/apps/': typeof AuthenticatedAppsIndexRoute
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
+  '/_authenticated/reports/': typeof AuthenticatedReportsIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
+  '/_authenticated/reports/city-operation/data-download/': typeof AuthenticatedReportsCityOperationDataDownloadIndexRoute
+  '/_authenticated/reports/city-operation/shareholder-pnl/': typeof AuthenticatedReportsCityOperationShareholderPnlIndexRoute
+  '/_authenticated/reports/waimai/area-fee/': typeof AuthenticatedReportsWaimaiAreaFeeIndexRoute
+  '/_authenticated/reports/waimai/area-subsidy/': typeof AuthenticatedReportsWaimaiAreaSubsidyIndexRoute
+  '/_authenticated/reports/waimai/city-overview/': typeof AuthenticatedReportsWaimaiCityOverviewIndexRoute
+  '/_authenticated/reports/waimai/city-subsidy/': typeof AuthenticatedReportsWaimaiCitySubsidyIndexRoute
+  '/_authenticated/reports/waimai/merchant-fee/': typeof AuthenticatedReportsWaimaiMerchantFeeIndexRoute
+  '/_authenticated/reports/waimai/merchant-pnl/': typeof AuthenticatedReportsWaimaiMerchantPnlIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -314,9 +404,18 @@ export interface FileRouteTypes {
     | '/apps/'
     | '/chats/'
     | '/help-center/'
+    | '/reports/'
     | '/settings/'
     | '/tasks/'
     | '/users/'
+    | '/reports/city-operation/data-download/'
+    | '/reports/city-operation/shareholder-pnl/'
+    | '/reports/waimai/area-fee/'
+    | '/reports/waimai/area-subsidy/'
+    | '/reports/waimai/city-overview/'
+    | '/reports/waimai/city-subsidy/'
+    | '/reports/waimai/merchant-fee/'
+    | '/reports/waimai/merchant-pnl/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/clerk'
@@ -342,9 +441,18 @@ export interface FileRouteTypes {
     | '/apps'
     | '/chats'
     | '/help-center'
+    | '/reports'
     | '/settings'
     | '/tasks'
     | '/users'
+    | '/reports/city-operation/data-download'
+    | '/reports/city-operation/shareholder-pnl'
+    | '/reports/waimai/area-fee'
+    | '/reports/waimai/area-subsidy'
+    | '/reports/waimai/city-overview'
+    | '/reports/waimai/city-subsidy'
+    | '/reports/waimai/merchant-fee'
+    | '/reports/waimai/merchant-pnl'
   id:
     | '__root__'
     | '/_authenticated'
@@ -374,9 +482,18 @@ export interface FileRouteTypes {
     | '/_authenticated/apps/'
     | '/_authenticated/chats/'
     | '/_authenticated/help-center/'
+    | '/_authenticated/reports/'
     | '/_authenticated/settings/'
     | '/_authenticated/tasks/'
     | '/_authenticated/users/'
+    | '/_authenticated/reports/city-operation/data-download/'
+    | '/_authenticated/reports/city-operation/shareholder-pnl/'
+    | '/_authenticated/reports/waimai/area-fee/'
+    | '/_authenticated/reports/waimai/area-subsidy/'
+    | '/_authenticated/reports/waimai/city-overview/'
+    | '/_authenticated/reports/waimai/city-subsidy/'
+    | '/_authenticated/reports/waimai/merchant-fee/'
+    | '/_authenticated/reports/waimai/merchant-pnl/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -529,6 +646,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsIndexRouteImport
       parentRoute: typeof AuthenticatedSettingsRouteRoute
     }
+    '/_authenticated/reports/': {
+      id: '/_authenticated/reports/'
+      path: '/reports'
+      fullPath: '/reports/'
+      preLoaderRoute: typeof AuthenticatedReportsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/help-center/': {
       id: '/_authenticated/help-center/'
       path: '/help-center'
@@ -606,6 +730,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedErrorsErrorRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/reports/waimai/merchant-pnl/': {
+      id: '/_authenticated/reports/waimai/merchant-pnl/'
+      path: '/reports/waimai/merchant-pnl'
+      fullPath: '/reports/waimai/merchant-pnl/'
+      preLoaderRoute: typeof AuthenticatedReportsWaimaiMerchantPnlIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/reports/waimai/merchant-fee/': {
+      id: '/_authenticated/reports/waimai/merchant-fee/'
+      path: '/reports/waimai/merchant-fee'
+      fullPath: '/reports/waimai/merchant-fee/'
+      preLoaderRoute: typeof AuthenticatedReportsWaimaiMerchantFeeIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/reports/waimai/city-subsidy/': {
+      id: '/_authenticated/reports/waimai/city-subsidy/'
+      path: '/reports/waimai/city-subsidy'
+      fullPath: '/reports/waimai/city-subsidy/'
+      preLoaderRoute: typeof AuthenticatedReportsWaimaiCitySubsidyIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/reports/waimai/city-overview/': {
+      id: '/_authenticated/reports/waimai/city-overview/'
+      path: '/reports/waimai/city-overview'
+      fullPath: '/reports/waimai/city-overview/'
+      preLoaderRoute: typeof AuthenticatedReportsWaimaiCityOverviewIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/reports/waimai/area-subsidy/': {
+      id: '/_authenticated/reports/waimai/area-subsidy/'
+      path: '/reports/waimai/area-subsidy'
+      fullPath: '/reports/waimai/area-subsidy/'
+      preLoaderRoute: typeof AuthenticatedReportsWaimaiAreaSubsidyIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/reports/waimai/area-fee/': {
+      id: '/_authenticated/reports/waimai/area-fee/'
+      path: '/reports/waimai/area-fee'
+      fullPath: '/reports/waimai/area-fee/'
+      preLoaderRoute: typeof AuthenticatedReportsWaimaiAreaFeeIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/reports/city-operation/shareholder-pnl/': {
+      id: '/_authenticated/reports/city-operation/shareholder-pnl/'
+      path: '/reports/city-operation/shareholder-pnl'
+      fullPath: '/reports/city-operation/shareholder-pnl/'
+      preLoaderRoute: typeof AuthenticatedReportsCityOperationShareholderPnlIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/reports/city-operation/data-download/': {
+      id: '/_authenticated/reports/city-operation/data-download/'
+      path: '/reports/city-operation/data-download'
+      fullPath: '/reports/city-operation/data-download/'
+      preLoaderRoute: typeof AuthenticatedReportsCityOperationDataDownloadIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -639,8 +819,17 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
+  AuthenticatedReportsIndexRoute: typeof AuthenticatedReportsIndexRoute
   AuthenticatedTasksIndexRoute: typeof AuthenticatedTasksIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
+  AuthenticatedReportsCityOperationDataDownloadIndexRoute: typeof AuthenticatedReportsCityOperationDataDownloadIndexRoute
+  AuthenticatedReportsCityOperationShareholderPnlIndexRoute: typeof AuthenticatedReportsCityOperationShareholderPnlIndexRoute
+  AuthenticatedReportsWaimaiAreaFeeIndexRoute: typeof AuthenticatedReportsWaimaiAreaFeeIndexRoute
+  AuthenticatedReportsWaimaiAreaSubsidyIndexRoute: typeof AuthenticatedReportsWaimaiAreaSubsidyIndexRoute
+  AuthenticatedReportsWaimaiCityOverviewIndexRoute: typeof AuthenticatedReportsWaimaiCityOverviewIndexRoute
+  AuthenticatedReportsWaimaiCitySubsidyIndexRoute: typeof AuthenticatedReportsWaimaiCitySubsidyIndexRoute
+  AuthenticatedReportsWaimaiMerchantFeeIndexRoute: typeof AuthenticatedReportsWaimaiMerchantFeeIndexRoute
+  AuthenticatedReportsWaimaiMerchantPnlIndexRoute: typeof AuthenticatedReportsWaimaiMerchantPnlIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -650,8 +839,25 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
+  AuthenticatedReportsIndexRoute: AuthenticatedReportsIndexRoute,
   AuthenticatedTasksIndexRoute: AuthenticatedTasksIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
+  AuthenticatedReportsCityOperationDataDownloadIndexRoute:
+    AuthenticatedReportsCityOperationDataDownloadIndexRoute,
+  AuthenticatedReportsCityOperationShareholderPnlIndexRoute:
+    AuthenticatedReportsCityOperationShareholderPnlIndexRoute,
+  AuthenticatedReportsWaimaiAreaFeeIndexRoute:
+    AuthenticatedReportsWaimaiAreaFeeIndexRoute,
+  AuthenticatedReportsWaimaiAreaSubsidyIndexRoute:
+    AuthenticatedReportsWaimaiAreaSubsidyIndexRoute,
+  AuthenticatedReportsWaimaiCityOverviewIndexRoute:
+    AuthenticatedReportsWaimaiCityOverviewIndexRoute,
+  AuthenticatedReportsWaimaiCitySubsidyIndexRoute:
+    AuthenticatedReportsWaimaiCitySubsidyIndexRoute,
+  AuthenticatedReportsWaimaiMerchantFeeIndexRoute:
+    AuthenticatedReportsWaimaiMerchantFeeIndexRoute,
+  AuthenticatedReportsWaimaiMerchantPnlIndexRoute:
+    AuthenticatedReportsWaimaiMerchantPnlIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

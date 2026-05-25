@@ -8,6 +8,9 @@ import { playwright } from '@vitest/browser-playwright'
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    port: 5700,
+  },
   plugins: [
     tanstackRouter({
       target: 'react',

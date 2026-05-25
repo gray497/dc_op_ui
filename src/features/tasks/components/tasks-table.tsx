@@ -114,6 +114,7 @@ export function TasksTable({ data }: DataTableProps) {
       <DataTableToolbar
         table={table}
         searchPlaceholder='按标题或ID筛选...'
+        enableSearchButton
         filters={[
           {
             columnId: 'status',

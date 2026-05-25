@@ -19,8 +19,8 @@ export function SignIn2() {
           <div className='flex flex-col space-y-2 text-start'>
             <h2 className='text-lg font-semibold tracking-tight'>登录</h2>
             <p className='text-sm text-muted-foreground'>
-              输入您的邮箱和密码以登录{' '}
-              <br className='max-sm:hidden' /> 您的账户。还没有账户？{' '}
+              输入您的邮箱和密码以登录 <br className='max-sm:hidden' />{' '}
+              您的账户。还没有账户？{' '}
               <Link
                 to='/sign-up'
                 className='text-nowrap underline underline-offset-4 hover:text-primary'

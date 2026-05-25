@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { Cross2Icon } from '@radix-ui/react-icons'
-import { type Table } from '@tanstack/react-table'
+import { type Table, type ColumnFiltersState } from '@tanstack/react-table'
+import { SearchIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { DataTableFacetedFilter } from './faceted-filter'
@@ -18,6 +20,7 @@ type DataTableToolbarProps<TData> = {
       icon?: React.ComponentType<{ className?: string }>
     }[]
   }[]
+  enableSearchButton?: boolean
 }
 
 export function DataTableToolbar<TData>({
@@ -25,9 +28,101 @@ export function DataTableToolbar<TData>({
   searchPlaceholder = '筛选...',
   searchKey,
   filters = [],
+  enableSearchButton = false,
 }: DataTableToolbarProps<TData>) {
-  const isFiltered =
-    table.getState().columnFilters.length > 0 || table.getState().globalFilter
+  const [prevTableGlobalFilter, setPrevTableGlobalFilter] = useState<
+    string | undefined
+  >(() => {
+    return enableSearchButton
+      ? (table.getState().globalFilter ?? '')
+      : undefined
+  })
+  const [localGlobalFilter, setLocalGlobalFilter] = useState<string>(() => {
+    return enableSearchButton ? (table.getState().globalFilter ?? '') : ''
+  })
+
+  const currentTableGlobalFilter = table.getState().globalFilter ?? ''
+  if (
+    enableSearchButton &&
+    currentTableGlobalFilter !== prevTableGlobalFilter
+  ) {
+    setPrevTableGlobalFilter(currentTableGlobalFilter)
+    setLocalGlobalFilter(currentTableGlobalFilter)
+  }
+
+  const [prevTableColumnFilters, setPrevTableColumnFilters] =
+    useState<ColumnFiltersState>(() => {
+      return enableSearchButton ? table.getState().columnFilters : []
+    })
+  const [localColumnFilters, setLocalColumnFilters] =
+    useState<ColumnFiltersState>(() => {
+      return enableSearchButton ? table.getState().columnFilters : []
+    })
+
+  const currentTableColumnFilters = table.getState().columnFilters
+  if (
+    enableSearchButton &&
+    currentTableColumnFilters !== prevTableColumnFilters
+  ) {
+    setPrevTableColumnFilters(currentTableColumnFilters)
+    setLocalColumnFilters(currentTableColumnFilters)
+  }
+
+  const getSearchKeyValue = () => {
+    if (!searchKey) return ''
+    const found = localColumnFilters.find((f) => f.id === searchKey)
+    return (found?.value as string) ?? ''
+  }
+
+  const setSearchKeyValue = (value: string) => {
+    if (!searchKey) return
+    setLocalColumnFilters((prev) => {
+      const filtered = prev.filter((f) => f.id !== searchKey)
+      if (!value) return filtered
+      return [...filtered, { id: searchKey, value }]
+    })
+  }
+
+  const getWrappedColumn = (columnId: string) => {
+    const actualColumn = table.getColumn(columnId)
+    if (!actualColumn) return undefined
+    if (!enableSearchButton) return actualColumn
+
+    return {
+      ...actualColumn,
+      getFacetedUniqueValues: () => actualColumn.getFacetedUniqueValues(),
+      getFilterValue: () => {
+        const found = localColumnFilters.find((f) => f.id === columnId)
+        return found?.value
+      },
+      setFilterValue: (value: unknown) => {
+        setLocalColumnFilters((prev) => {
+          const filtered = prev.filter((f) => f.id !== columnId)
+          if (value === undefined) return filtered
+          return [...filtered, { id: columnId, value }]
+        })
+      },
+    } as unknown as typeof actualColumn
+  }
+
+  const handleSearch = () => {
+    table.setGlobalFilter(localGlobalFilter)
+    table.setColumnFilters(localColumnFilters)
+  }
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearch()
+    }
+  }
+
+  const isFiltered = enableSearchButton
+    ? localGlobalFilter !== '' ||
+      localColumnFilters.length > 0 ||
+      table.getState().columnFilters.length > 0 ||
+      !!table.getState().globalFilter
+    : table.getState().columnFilters.length > 0 ||
+      !!table.getState().globalFilter
 
   return (
     <div className='flex items-center justify-between'>
@@ -36,24 +131,39 @@ export function DataTableToolbar<TData>({
           <Input
             placeholder={searchPlaceholder}
             value={
-              (table.getColumn(searchKey)?.getFilterValue() as string) ?? ''
+              enableSearchButton
+                ? getSearchKeyValue()
+                : ((table.getColumn(searchKey)?.getFilterValue() as string) ??
+                  '')
             }
             onChange={(event) =>
-              table.getColumn(searchKey)?.setFilterValue(event.target.value)
+              enableSearchButton
+                ? setSearchKeyValue(event.target.value)
+                : table.getColumn(searchKey)?.setFilterValue(event.target.value)
             }
+            onKeyDown={enableSearchButton ? handleKeyDown : undefined}
             className='h-8 w-37.5 lg:w-62.5'
           />
         ) : (
           <Input
             placeholder={searchPlaceholder}
-            value={table.getState().globalFilter ?? ''}
-            onChange={(event) => table.setGlobalFilter(event.target.value)}
+            value={
+              enableSearchButton
+                ? localGlobalFilter
+                : (table.getState().globalFilter ?? '')
+            }
+            onChange={(event) =>
+              enableSearchButton
+                ? setLocalGlobalFilter(event.target.value)
+                : table.setGlobalFilter(event.target.value)
+            }
+            onKeyDown={enableSearchButton ? handleKeyDown : undefined}
             className='h-8 w-37.5 lg:w-62.5'
           />
         )}
         <div className='flex gap-x-2'>
           {filters.map((filter) => {
-            const column = table.getColumn(filter.columnId)
+            const column = getWrappedColumn(filter.columnId)
             if (!column) return null
             return (
               <DataTableFacetedFilter
@@ -65,10 +175,25 @@ export function DataTableToolbar<TData>({
             )
           })}
         </div>
+        {enableSearchButton && (
+          <Button
+            variant='default'
+            size='sm'
+            onClick={handleSearch}
+            className='h-8 gap-1 px-3'
+          >
+            <SearchIcon className='h-4 w-4' />
+            查询
+          </Button>
+        )}
         {isFiltered && (
           <Button
             variant='ghost'
             onClick={() => {
+              if (enableSearchButton) {
+                setLocalGlobalFilter('')
+                setLocalColumnFilters([])
+              }
               table.resetColumnFilters()
               table.setGlobalFilter('')
             }}

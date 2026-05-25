@@ -19,8 +19,8 @@ export function SignIn() {
         <CardHeader>
           <CardTitle className='text-lg tracking-tight'>登录</CardTitle>
           <CardDescription>
-            输入您的邮箱和密码以登录{' '}
-            <br className='max-sm:hidden' /> 您的账户。还没有账户？{' '}
+            输入您的邮箱和密码以登录 <br className='max-sm:hidden' />{' '}
+            您的账户。还没有账户？{' '}
             <Link
               to='/sign-up'
               className='text-nowrap underline underline-offset-4 hover:text-primary'

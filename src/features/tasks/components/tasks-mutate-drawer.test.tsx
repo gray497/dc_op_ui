@@ -26,9 +26,9 @@ describe('TasksMutateDrawer', () => {
 
     const title = getByRole('heading', {
       level: 2,
-      name: /Create Task/i,
+      name: /创建任务/i,
     })
-    const desc = getByText(/Add a new task/i)
+    const desc = getByText(/添加新任务/i)
 
     await expect.element(title).toBeInTheDocument()
     await expect.element(desc).toBeInTheDocument()
@@ -41,21 +41,19 @@ describe('TasksMutateDrawer', () => {
 
     const title = getByRole('heading', {
       level: 2,
-      name: /Update Task/i,
+      name: /更新任务/i,
     })
-    const desc = getByText(/Update the task/i)
+    const desc = getByText(/提供必要信息以更新任务。/i)
 
-    const titleInput = getByRole('textbox', { name: /Title/i })
-    const statusSelect = getByRole('combobox', { name: /Status/i })
-    const labelRadio = getByRole('radio', { name: MOCK_TASK.label })
-    const priorityRadio = getByRole('radio', { name: MOCK_TASK.priority })
+    const titleInput = getByRole('textbox', { name: /标题/i })
+    const statusSelect = getByRole('combobox', { name: /状态/i })
+    const labelRadio = getByRole('radio', { name: '功能' })
+    const priorityRadio = getByRole('radio', { name: '中' })
 
     await expect.element(title).toBeInTheDocument()
     await expect.element(desc).toBeInTheDocument()
     await expect.element(titleInput).toHaveValue(MOCK_TASK.title)
-    await expect
-      .element(statusSelect)
-      .toHaveTextContent(new RegExp(MOCK_TASK.status, 'i'))
+    await expect.element(statusSelect).toHaveTextContent(/进行中/i)
     await expect.element(labelRadio).toBeChecked()
     await expect.element(priorityRadio).toBeChecked()
   })
@@ -65,19 +63,13 @@ describe('TasksMutateDrawer', () => {
       <TasksMutateDrawer open onOpenChange={vi.fn()} />
     )
 
-    const saveButton = getByRole('button', { name: /Save changes/i })
+    const saveButton = getByRole('button', { name: /保存更改/i })
     await userEvent.click(saveButton)
 
-    await expect.element(getByText(/Title is required.$/i)).toBeInTheDocument()
-    await expect
-      .element(getByText(/Please select a status.$/i))
-      .toBeInTheDocument()
-    await expect
-      .element(getByText(/Please select a label.$/i))
-      .toBeInTheDocument()
-    await expect
-      .element(getByText(/Please choose a priority.$/i))
-      .toBeInTheDocument()
+    await expect.element(getByText(/标题为必填项。$/i)).toBeInTheDocument()
+    await expect.element(getByText(/请选择状态。$/i)).toBeInTheDocument()
+    await expect.element(getByText(/请选择标签。$/i)).toBeInTheDocument()
+    await expect.element(getByText(/请选择优先级。$/i)).toBeInTheDocument()
   })
 
   it('submits create form and shows submitted data', async () => {
@@ -86,17 +78,17 @@ describe('TasksMutateDrawer', () => {
       <TasksMutateDrawer open onOpenChange={onOpenChange} />
     )
 
-    const titleInput = getByRole('textbox', { name: /Title/i })
+    const titleInput = getByRole('textbox', { name: /标题/i })
     await userEvent.fill(titleInput, 'New task title')
 
-    const statusSelect = getByRole('combobox', { name: /Status/i })
+    const statusSelect = getByRole('combobox', { name: /状态/i })
     await userEvent.click(statusSelect)
-    await userEvent.click(getByRole('option', { name: /Todo/i }))
+    await userEvent.click(getByRole('option', { name: /待办/i }))
 
-    await userEvent.click(getByRole('radio', { name: /^Bug$/i }))
-    await userEvent.click(getByRole('radio', { name: /^Low$/i }))
+    await userEvent.click(getByRole('radio', { name: /^缺陷$/i }))
+    await userEvent.click(getByRole('radio', { name: /^低$/i }))
 
-    const saveButton = getByRole('button', { name: /Save changes/i })
+    const saveButton = getByRole('button', { name: /保存更改/i })
     await userEvent.click(saveButton)
 
     expect(onOpenChange).toHaveBeenCalledOnce()
@@ -119,7 +111,7 @@ describe('TasksMutateDrawer', () => {
 
     const closeButtons = getByRole('dialog')
       .getByRole('button', {
-        name: /Close/i,
+        name: /Close|关闭/i,
       })
       .all()
     expect(closeButtons).toHaveLength(2)
@@ -144,26 +136,26 @@ describe('TasksMutateDrawer', () => {
 
     const { getByRole } = await render(<Harness />)
 
-    const titleInput = getByRole('textbox', { name: /Title/i })
+    const titleInput = getByRole('textbox', { name: /标题/i })
     await userEvent.fill(titleInput, 'Draft title')
     await expect.element(titleInput).toHaveValue('Draft title')
 
-    const statusSelect = getByRole('combobox', { name: /Status/i })
+    const statusSelect = getByRole('combobox', { name: /状态/i })
     await userEvent.click(statusSelect)
-    await userEvent.click(getByRole('option', { name: /Todo/i }))
-    await expect.element(statusSelect).toHaveTextContent(/Todo/i)
+    await userEvent.click(getByRole('option', { name: /待办/i }))
+    await expect.element(statusSelect).toHaveTextContent(/待办/i)
 
-    const labelRadio = getByRole('radio', { name: /^Documentation$/i })
+    const labelRadio = getByRole('radio', { name: /^文档$/i })
     await userEvent.click(labelRadio)
     await expect.element(labelRadio).toBeChecked()
 
-    const priorityRadio = getByRole('radio', { name: /^High$/i })
+    const priorityRadio = getByRole('radio', { name: /^高$/i })
     await userEvent.click(priorityRadio)
     await expect.element(priorityRadio).toBeChecked()
 
     const closeButtons = getByRole('dialog')
       .getByRole('button', {
-        name: /Close/i,
+        name: /Close|关闭/i,
       })
       .all()
     await userEvent.click(closeButtons[0])
@@ -172,7 +164,7 @@ describe('TasksMutateDrawer', () => {
     await userEvent.click(reopenButton)
 
     await expect.element(titleInput).toHaveValue('')
-    await expect.element(statusSelect).not.toHaveTextContent(/Todo/i)
+    await expect.element(statusSelect).not.toHaveTextContent(/待办/i)
     await expect.element(labelRadio).not.toBeChecked()
     await expect.element(priorityRadio).not.toBeChecked()
   })

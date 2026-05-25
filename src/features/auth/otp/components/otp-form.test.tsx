@@ -22,8 +22,8 @@ describe('OtpForm', () => {
     vi.clearAllMocks()
 
     screen = await render(<OtpForm />)
-    otpInput = screen.getByLabelText(/^One-Time Password$/i)
-    verifyButton = screen.getByRole('button', { name: /^Verify$/i })
+    otpInput = screen.getByLabelText(/^一次性验证码$/i)
+    verifyButton = screen.getByRole('button', { name: /^验证$/i })
   })
 
   afterEach(() => {
@@ -41,9 +41,9 @@ describe('OtpForm', () => {
   })
 
   it('submits the OTP and navigates after timeout', async () => {
-    vi.useFakeTimers()
-
     await userEvent.fill(otpInput, '123456')
+
+    vi.useFakeTimers()
     await userEvent.click(verifyButton)
 
     expect(showSubmittedData).toHaveBeenCalledOnce()

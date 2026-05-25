@@ -49,17 +49,14 @@ export function TasksDialogs() {
               setTimeout(() => {
                 setCurrentRow(null)
               }, 500)
-              showSubmittedData(
-                currentRow,
-                '已删除以下任务：'
-              )
+              showSubmittedData(currentRow, '已删除以下任务：')
             }}
             className='max-w-md'
             title={`删除此任务：${currentRow.id} ？`}
             desc={
               <>
-                您即将删除 ID 为{' '}
-                <strong>{currentRow.id}</strong> 的任务。<br />
+                您即将删除 ID 为 <strong>{currentRow.id}</strong> 的任务。
+                <br />
                 此操作无法撤销。
               </>
             }

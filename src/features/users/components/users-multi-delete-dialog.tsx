@@ -58,8 +58,7 @@ export function UsersMultiDeleteDialog<TData>({
             className='me-1 inline-block stroke-destructive'
             size={18}
           />{' '}
-          删除 {selectedRows.length}{' '}
-          个用户
+          删除 {selectedRows.length} 个用户
         </span>
       }
       desc={
@@ -72,7 +71,8 @@ export function UsersMultiDeleteDialog<TData>({
           className='space-y-4'
         >
           <p className='mb-2'>
-            您确定要删除选中的用户吗？<br />
+            您确定要删除选中的用户吗？
+            <br />
             此操作无法撤销。
           </p>
 
@@ -88,9 +88,7 @@ export function UsersMultiDeleteDialog<TData>({
 
           <Alert variant='destructive'>
             <AlertTitle>警告！</AlertTitle>
-            <AlertDescription>
-              请谨慎操作，此操作无法撤销。
-            </AlertDescription>
+            <AlertDescription>请谨慎操作，此操作无法撤销。</AlertDescription>
           </Alert>
         </form>
       }

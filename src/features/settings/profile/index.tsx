@@ -3,10 +3,7 @@ import { ProfileForm } from './profile-form'
 
 export function SettingsProfile() {
   return (
-    <ContentSection
-      title='个人资料'
-      desc='这是其他人在网站上看到您的样子。'
-    >
+    <ContentSection title='个人资料' desc='这是其他人在网站上看到您的样子。'>
       <ProfileForm />
     </ContentSection>
   )

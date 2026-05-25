@@ -30,9 +30,7 @@ export function Users() {
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
             <h2 className='text-2xl font-bold tracking-tight'>用户列表</h2>
-            <p className='text-muted-foreground'>
-              在此管理您的用户及其角色。
-            </p>
+            <p className='text-muted-foreground'>在此管理您的用户及其角色。</p>
           </div>
           <UsersPrimaryButtons />
         </div>

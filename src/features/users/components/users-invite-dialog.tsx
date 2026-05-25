@@ -28,8 +28,7 @@ import { roles } from '../data/data'
 
 const formSchema = z.object({
   email: z.email({
-    error: (iss) =>
-      iss.input === '' ? '请输入要邀请的邮箱。' : undefined,
+    error: (iss) => (iss.input === '' ? '请输入要邀请的邮箱。' : undefined),
   }),
   role: z.string().min(1, '角色为必填项。'),
   desc: z.string().optional(),
@@ -71,8 +70,7 @@ export function UsersInviteDialog({
             <MailPlus /> 邀请用户
           </DialogTitle>
           <DialogDescription>
-            通过发送邮件邀请新用户加入您的团队。
-            分配角色以定义其访问权限。
+            通过发送邮件邀请新用户加入您的团队。 分配角色以定义其访问权限。
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>

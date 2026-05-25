@@ -31,9 +31,7 @@ const profileFormSchema = z.object({
     .max(30, '用户名不能超过30个字符。'),
   email: z.email({
     error: (iss) =>
-      iss.input === undefined
-        ? '请选择一个要显示的邮箱。'
-        : undefined,
+      iss.input === undefined ? '请选择一个要显示的邮箱。' : undefined,
   }),
   bio: z.string().max(160).min(4),
   urls: z
@@ -109,8 +107,7 @@ export function ProfileForm() {
                 </SelectContent>
               </Select>
               <FormDescription>
-                您可以在{' '}
-                <Link to='/'>邮箱设置</Link>中管理已验证的邮箱地址。
+                您可以在 <Link to='/'>邮箱设置</Link>中管理已验证的邮箱地址。
               </FormDescription>
               <FormMessage />
             </FormItem>

@@ -6,17 +6,17 @@ import { type User } from '../data/schema'
 import { UsersActionDialog } from './users-action-dialog'
 
 const VALIDATION_MESSAGES = {
-  firstName: 'First Name is required.',
-  lastName: 'Last Name is required.',
-  username: 'Username is required.',
-  phoneNumber: 'Phone number is required.',
-  email: 'Email is required.',
-  role: 'Role is required.',
-  password: 'Password is required.',
-  passwordMismatch: "Passwords don't match.",
-  passwordLength: 'Password must be at least 8 characters long.',
-  passwordNumber: 'Password must contain at least one number.',
-  passwordLowercase: 'Password must contain at least one lowercase letter.',
+  firstName: '名为必填项。',
+  lastName: '姓为必填项。',
+  username: '用户名为必填项。',
+  phoneNumber: '电话号码为必填项。',
+  email: '邮箱为必填项。',
+  role: '角色为必填项。',
+  password: '密码为必填项。',
+  passwordMismatch: '两次输入的密码不一致。',
+  passwordLength: '密码长度至少为8个字符。',
+  passwordNumber: '密码必须包含至少一个数字。',
+  passwordLowercase: '密码必须包含至少一个小写字母。',
 } as const
 
 const MOCK_USER: User = {
@@ -45,11 +45,9 @@ describe('UsersActionDialog', () => {
 
       const title = getByRole('heading', {
         level: 2,
-        name: /Add New User/i,
+        name: /添加用户/i,
       })
-      const description = getByText(
-        /Create new user here. Click save when you're done./i
-      )
+      const description = getByText(/在此创建新用户。完成后点击保存。/i)
 
       await expect.element(title).toBeInTheDocument()
       await expect.element(description).toBeInTheDocument()
@@ -60,29 +58,29 @@ describe('UsersActionDialog', () => {
         <UsersActionDialog open onOpenChange={vi.fn()} />
       )
 
-      const submitButton = getByRole('button', { name: /Save Changes/i })
+      const submitButton = getByRole('button', { name: /保存更改/i })
       await userEvent.click(submitButton)
 
       await expect
-        .element(getByText(VALIDATION_MESSAGES.firstName))
+        .element(getByText(VALIDATION_MESSAGES.firstName, { exact: true }))
         .toBeInTheDocument()
       await expect
-        .element(getByText(VALIDATION_MESSAGES.lastName))
+        .element(getByText(VALIDATION_MESSAGES.lastName, { exact: true }))
         .toBeInTheDocument()
       await expect
-        .element(getByText(VALIDATION_MESSAGES.username))
+        .element(getByText(VALIDATION_MESSAGES.username, { exact: true }))
         .toBeInTheDocument()
       await expect
-        .element(getByText(VALIDATION_MESSAGES.phoneNumber))
+        .element(getByText(VALIDATION_MESSAGES.phoneNumber, { exact: true }))
         .toBeInTheDocument()
       await expect
-        .element(getByText(VALIDATION_MESSAGES.email))
+        .element(getByText(VALIDATION_MESSAGES.email, { exact: true }))
         .toBeInTheDocument()
       await expect
-        .element(getByText(VALIDATION_MESSAGES.role))
+        .element(getByText(VALIDATION_MESSAGES.role, { exact: true }))
         .toBeInTheDocument()
       await expect
-        .element(getByText(VALIDATION_MESSAGES.password))
+        .element(getByText(VALIDATION_MESSAGES.password, { exact: true }))
         .toBeInTheDocument()
     })
 
@@ -91,9 +89,9 @@ describe('UsersActionDialog', () => {
         <UsersActionDialog open onOpenChange={vi.fn()} />
       )
 
-      const password = getByRole('textbox', { name: /^Password$/i })
+      const password = getByRole('textbox', { name: /^密码$/i })
       const confirmPassword = getByRole('textbox', {
-        name: /Confirm Password/i,
+        name: /确认密码/i,
       })
       await expect.element(confirmPassword).toBeDisabled()
 
@@ -106,13 +104,13 @@ describe('UsersActionDialog', () => {
         <UsersActionDialog open onOpenChange={vi.fn()} />
       )
 
-      const password = getByRole('textbox', { name: /^Password$/i })
+      const password = getByRole('textbox', { name: /^密码$/i })
       const confirmPassword = getByRole('textbox', {
-        name: /Confirm Password/i,
+        name: /确认密码/i,
       })
       await userEvent.type(password, 'a')
       await userEvent.type(confirmPassword, 'b')
-      const submitButton = getByRole('button', { name: /Save Changes/i })
+      const submitButton = getByRole('button', { name: /保存更改/i })
 
       await userEvent.click(submitButton)
 
@@ -163,7 +161,7 @@ describe('UsersActionDialog', () => {
 
       await fillPasswords(userEvent, screen, 'S3cur3P@ssw0rd', 'S3cur3P@ssw0rd')
 
-      const submitButton = screen.getByRole('button', { name: /Save Changes/i })
+      const submitButton = screen.getByRole('button', { name: /保存更改/i })
       await userEvent.click(submitButton)
 
       expect(onOpenChange).toHaveBeenCalledOnce()
@@ -192,11 +190,9 @@ describe('UsersActionDialog', () => {
 
       const title = getByRole('heading', {
         level: 2,
-        name: /Edit User/i,
+        name: /编辑用户/i,
       })
-      const description = getByText(
-        /Update the user here\. Click save when you're done\./i
-      )
+      const description = getByText(/在此更新用户信息。/i)
 
       await expect.element(title).toBeInTheDocument()
       await expect.element(description).toBeInTheDocument()
@@ -212,7 +208,7 @@ describe('UsersActionDialog', () => {
         />
       )
 
-      const submitButton = screen.getByRole('button', { name: /Save Changes/i })
+      const submitButton = screen.getByRole('button', { name: /保存更改/i })
       await userEvent.click(submitButton)
 
       expect(onOpenChange).toHaveBeenCalledOnce()
@@ -237,15 +233,15 @@ describe('UsersActionDialog', () => {
         <UsersActionDialog open onOpenChange={vi.fn()} currentRow={MOCK_USER} />
       )
 
-      const password = getByRole('textbox', { name: /^Password$/i })
+      const password = getByRole('textbox', { name: /^密码$/i })
       const confirmPassword = getByRole('textbox', {
-        name: /Confirm Password/i,
+        name: /确认密码/i,
       })
 
       await userEvent.fill(password, 'S3cur3P@ssw0rd')
       await expect.element(confirmPassword).toBeEnabled()
 
-      const submitButton = getByRole('button', { name: /Save Changes/i })
+      const submitButton = getByRole('button', { name: /保存更改/i })
       await userEvent.click(submitButton)
 
       await expect
@@ -267,7 +263,7 @@ describe('UsersActionDialog', () => {
       const EDIT_SUCCESS_PASSWORD = 'S3cur3P@ssw0rd'
 
       await userEvent.fill(
-        screen.getByLabelText(/first name/i),
+        screen.getByLabelText(/^名$/i),
         EDIT_SUCCESS_FIRST_NAME
       )
       await fillPasswords(
@@ -277,7 +273,7 @@ describe('UsersActionDialog', () => {
         EDIT_SUCCESS_PASSWORD
       )
 
-      const submitButton = screen.getByRole('button', { name: /Save Changes/i })
+      const submitButton = screen.getByRole('button', { name: /保存更改/i })
       await userEvent.click(submitButton)
 
       expect(onOpenChange).toHaveBeenCalledOnce()
@@ -312,11 +308,11 @@ async function fillRequiredProfileFields(
   }
 ) {
   const entries = [
-    [/first name/i, overrides?.firstName ?? 'John'],
-    [/last name/i, overrides?.lastName ?? 'Doe'],
-    [/username/i, overrides?.username ?? 'john_doe'],
-    [/^email$/i, overrides?.email ?? 'a@b.co'],
-    [/phone number/i, overrides?.phoneNumber ?? '+19999999999'],
+    [/^名$/i, overrides?.firstName ?? 'John'],
+    [/^姓$/i, overrides?.lastName ?? 'Doe'],
+    [/^用户名$/i, overrides?.username ?? 'john_doe'],
+    [/^邮箱$/i, overrides?.email ?? 'a@b.co'],
+    [/^电话号码$/i, overrides?.phoneNumber ?? '+19999999999'],
   ] as const
 
   for (const [label, value] of entries) {
@@ -325,10 +321,10 @@ async function fillRequiredProfileFields(
     await user.fill(el, value)
   }
 
-  const roleSelect = screen.getByRole('combobox', { name: /Role/i })
+  const roleSelect = screen.getByRole('combobox', { name: /角色/i })
   await user.click(roleSelect)
   await user.click(
-    screen.getByRole('option', { name: overrides?.roleOption ?? 'Superadmin' })
+    screen.getByRole('option', { name: overrides?.roleOption ?? '超级管理员' })
   )
 }
 
@@ -338,8 +334,8 @@ async function fillPasswords(
   a: string,
   b: string
 ) {
-  const password = screen.getByLabelText(/^Password$/i)
-  const confirmPassword = screen.getByLabelText(/^Confirm Password$/i)
+  const password = screen.getByLabelText(/^密码$/i)
+  const confirmPassword = screen.getByLabelText(/^确认密码$/i)
   await user.fill(password, a)
   await user.fill(confirmPassword, b)
 }

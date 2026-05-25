@@ -18,15 +18,15 @@ describe('TasksImportDialog', () => {
 
     const title = getByRole('heading', {
       level: 2,
-      name: /Import Tasks/i,
+      name: /导入任务/i,
     })
-    const desc = getByText('Import tasks quickly from a CSV file')
-    const fileInput = getByLabelText('File')
+    const desc = getByText('从 CSV 文件快速导入任务。')
+    const fileInput = getByLabelText('文件')
     const closeButtons = getByRole('dialog')
-      .getByRole('button', { name: 'Close' })
+      .getByRole('button', { name: /Close|关闭/i })
       .all()
 
-    const importButton = getByRole('button', { name: /^Import$/i })
+    const importButton = getByRole('button', { name: /^导入$/i })
 
     await expect.element(title).toBeInTheDocument()
     await expect.element(desc).toBeInTheDocument()
@@ -41,10 +41,10 @@ describe('TasksImportDialog', () => {
       <TasksImportDialog open onOpenChange={onOpenChange} />
     )
 
-    const importButton = getByRole('button', { name: /^Import$/i })
+    const importButton = getByRole('button', { name: /^导入$/i })
     await userEvent.click(importButton)
 
-    await expect.element(getByText('Please upload a file.')).toBeInTheDocument()
+    await expect.element(getByText('请上传文件。')).toBeInTheDocument()
     expect(onOpenChange).not.toHaveBeenCalled()
     expect(showSubmittedData).not.toHaveBeenCalled()
   })
@@ -56,9 +56,9 @@ describe('TasksImportDialog', () => {
     )
 
     const csv = new File(['a,b'], 'tasks.csv', { type: 'text/csv' })
-    await userEvent.upload(getByLabelText('File'), csv)
+    await userEvent.upload(getByLabelText('文件'), csv)
 
-    const importButton = getByRole('button', { name: /^Import$/i })
+    const importButton = getByRole('button', { name: /^导入$/i })
     await userEvent.click(importButton)
 
     expect(showSubmittedData).toHaveBeenCalledOnce()
@@ -68,7 +68,7 @@ describe('TasksImportDialog', () => {
         size: csv.size,
         type: 'text/csv',
       },
-      'You have imported the following file:'
+      '您已导入以下文件：'
     )
     expect(onOpenChange).toHaveBeenCalledOnce()
     expect(onOpenChange).toHaveBeenCalledWith(false)
@@ -99,7 +99,7 @@ describe('TasksImportDialog', () => {
 
     const closeButtonX = getByRole('dialog')
       .getByRole('button', {
-        name: /Close/i,
+        name: /Close|关闭/i,
       })
       .nth(0)
     await userEvent.click(closeButtonX)
@@ -111,7 +111,7 @@ describe('TasksImportDialog', () => {
     await userEvent.click(getByRole('button', { name: /Reopen/i }))
     const closeButton = getByRole('dialog')
       .getByRole('button', {
-        name: /Close/i,
+        name: /Close|关闭/i,
       })
       .nth(1)
     await userEvent.click(closeButton)

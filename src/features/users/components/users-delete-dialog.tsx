@@ -76,9 +76,7 @@ export function UsersDeleteDialog({
 
           <Alert variant='destructive'>
             <AlertTitle>警告！</AlertTitle>
-            <AlertDescription>
-              请谨慎操作，此操作无法撤销。
-            </AlertDescription>
+            <AlertDescription>请谨慎操作，此操作无法撤销。</AlertDescription>
           </Alert>
         </form>
       }

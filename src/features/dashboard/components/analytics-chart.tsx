@@ -1,13 +1,41 @@
 import ReactECharts from 'echarts-for-react'
 
 const data = [
-  { name: '周一', clicks: Math.floor(Math.random() * 900) + 100, uniques: Math.floor(Math.random() * 700) + 80 },
-  { name: '周二', clicks: Math.floor(Math.random() * 900) + 100, uniques: Math.floor(Math.random() * 700) + 80 },
-  { name: '周三', clicks: Math.floor(Math.random() * 900) + 100, uniques: Math.floor(Math.random() * 700) + 80 },
-  { name: '周四', clicks: Math.floor(Math.random() * 900) + 100, uniques: Math.floor(Math.random() * 700) + 80 },
-  { name: '周五', clicks: Math.floor(Math.random() * 900) + 100, uniques: Math.floor(Math.random() * 700) + 80 },
-  { name: '周六', clicks: Math.floor(Math.random() * 900) + 100, uniques: Math.floor(Math.random() * 700) + 80 },
-  { name: '周日', clicks: Math.floor(Math.random() * 900) + 100, uniques: Math.floor(Math.random() * 700) + 80 },
+  {
+    name: '周一',
+    clicks: Math.floor(Math.random() * 900) + 100,
+    uniques: Math.floor(Math.random() * 700) + 80,
+  },
+  {
+    name: '周二',
+    clicks: Math.floor(Math.random() * 900) + 100,
+    uniques: Math.floor(Math.random() * 700) + 80,
+  },
+  {
+    name: '周三',
+    clicks: Math.floor(Math.random() * 900) + 100,
+    uniques: Math.floor(Math.random() * 700) + 80,
+  },
+  {
+    name: '周四',
+    clicks: Math.floor(Math.random() * 900) + 100,
+    uniques: Math.floor(Math.random() * 700) + 80,
+  },
+  {
+    name: '周五',
+    clicks: Math.floor(Math.random() * 900) + 100,
+    uniques: Math.floor(Math.random() * 700) + 80,
+  },
+  {
+    name: '周六',
+    clicks: Math.floor(Math.random() * 900) + 100,
+    uniques: Math.floor(Math.random() * 700) + 80,
+  },
+  {
+    name: '周日',
+    clicks: Math.floor(Math.random() * 900) + 100,
+    uniques: Math.floor(Math.random() * 700) + 80,
+  },
 ]
 
 export function AnalyticsChart() {

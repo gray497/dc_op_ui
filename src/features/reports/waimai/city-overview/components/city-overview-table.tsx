@@ -65,6 +65,7 @@ function getPinnedStyle(column: Column<CityOverviewRow>): React.CSSProperties {
     left: `${column.getStart('left')}px`,
     width: `${width}px`,
     minWidth: `${width}px`,
+    maxWidth: `${width}px`,
     zIndex: 3,
     backgroundColor: 'var(--background)',
   }
@@ -83,6 +84,7 @@ function getGroupHeaderPinnedStyle(
     left: `${leafColumns[0].getStart('left')}px`,
     width: `${totalWidth}px`,
     minWidth: `${totalWidth}px`,
+    maxWidth: `${totalWidth}px`,
     zIndex: 3,
     backgroundColor: 'var(--background)',
   }
@@ -295,7 +297,7 @@ function TabTable({
         </p>
       )}
       <div className='rounded-md border'>
-        <Table className='min-w-max border-separate border-spacing-0'>
+        <Table className='w-auto border-separate border-spacing-0'>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

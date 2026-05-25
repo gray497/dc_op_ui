@@ -80,7 +80,7 @@ export function Chats() {
             <div className='sticky top-0 z-10 -mx-4 bg-background px-4 pb-3 shadow-md sm:static sm:z-auto sm:mx-0 sm:p-0 sm:shadow-none'>
               <div className='flex items-center justify-between py-2'>
                 <div className='flex gap-2'>
-                  <h1 className='text-2xl font-bold'>Inbox</h1>
+                  <h1 className='text-2xl font-bold'>收件箱</h1>
                   <MessagesSquare size={20} />
                 </div>
 
@@ -101,11 +101,11 @@ export function Chats() {
                 )}
               >
                 <SearchIcon size={15} className='me-2 stroke-slate-500' />
-                <span className='sr-only'>Search</span>
+                <span className='sr-only'>搜索</span>
                 <input
                   type='text'
                   className='w-full flex-1 bg-inherit text-sm focus-visible:outline-hidden'
-                  placeholder='Search chat...'
+                  placeholder='搜索聊天...'
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
@@ -118,7 +118,7 @@ export function Chats() {
                 const lastConvo = messages[0]
                 const lastMsg =
                   lastConvo.sender === 'You'
-                    ? `You: ${lastConvo.message}`
+                    ? `你: ${lastConvo.message}`
                     : lastConvo.message
                 return (
                   <Fragment key={id}>
@@ -296,10 +296,10 @@ export function Chats() {
                       </Button>
                     </div>
                     <label className='flex-1'>
-                      <span className='sr-only'>Chat Text Box</span>
+                      <span className='sr-only'>聊天输入框</span>
                       <input
                         type='text'
-                        placeholder='Type your messages...'
+                        placeholder='输入消息...'
                         className='h-8 w-full bg-inherit focus-visible:outline-hidden'
                       />
                     </label>
@@ -312,7 +312,7 @@ export function Chats() {
                     </Button>
                   </div>
                   <Button className='h-full sm:hidden'>
-                    <Send size={18} /> Send
+                    <Send size={18} /> 发送
                   </Button>
                 </form>
               </div>
@@ -328,13 +328,13 @@ export function Chats() {
                   <MessagesSquare className='size-8' />
                 </div>
                 <div className='space-y-2 text-center'>
-                  <h1 className='text-xl font-semibold'>Your messages</h1>
+                  <h1 className='text-xl font-semibold'>您的消息</h1>
                   <p className='text-sm text-muted-foreground'>
-                    Send a message to start a chat.
+                    发送一条消息开始聊天。
                   </p>
                 </div>
                 <Button onClick={() => setCreateConversationDialog(true)}>
-                  Send message
+                  发送消息
                 </Button>
               </div>
             </div>

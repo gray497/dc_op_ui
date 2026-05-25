@@ -128,38 +128,74 @@ export function DataTableToolbar<TData>({
     <div className='flex items-center justify-between'>
       <div className='flex flex-1 flex-col-reverse items-start gap-y-2 sm:flex-row sm:items-center sm:space-x-2'>
         {searchKey ? (
-          <Input
-            placeholder={searchPlaceholder}
-            value={
-              enableSearchButton
-                ? getSearchKeyValue()
-                : ((table.getColumn(searchKey)?.getFilterValue() as string) ??
-                  '')
-            }
-            onChange={(event) =>
-              enableSearchButton
-                ? setSearchKeyValue(event.target.value)
-                : table.getColumn(searchKey)?.setFilterValue(event.target.value)
-            }
-            onKeyDown={enableSearchButton ? handleKeyDown : undefined}
-            className='h-8 w-37.5 lg:w-62.5'
-          />
+          <div className='relative'>
+            <Input
+              placeholder={searchPlaceholder}
+              value={
+                enableSearchButton
+                  ? getSearchKeyValue()
+                  : ((table.getColumn(searchKey)?.getFilterValue() as string) ??
+                    '')
+              }
+              onChange={(event) =>
+                enableSearchButton
+                  ? setSearchKeyValue(event.target.value)
+                  : table.getColumn(searchKey)?.setFilterValue(event.target.value)
+              }
+              onKeyDown={enableSearchButton ? handleKeyDown : undefined}
+              className='h-8 w-37.5 pr-7 lg:w-62.5'
+            />
+            {(enableSearchButton
+              ? getSearchKeyValue()
+              : ((table.getColumn(searchKey)?.getFilterValue() as string) ?? '')) && (
+              <button
+                type='button'
+                onClick={() =>
+                  enableSearchButton
+                    ? setSearchKeyValue('')
+                    : table.getColumn(searchKey)?.setFilterValue('')
+                }
+                className='absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground'
+                aria-label='清除筛选'
+              >
+                <Cross2Icon className='h-3.5 w-3.5' />
+              </button>
+            )}
+          </div>
         ) : (
-          <Input
-            placeholder={searchPlaceholder}
-            value={
-              enableSearchButton
-                ? localGlobalFilter
-                : (table.getState().globalFilter ?? '')
-            }
-            onChange={(event) =>
-              enableSearchButton
-                ? setLocalGlobalFilter(event.target.value)
-                : table.setGlobalFilter(event.target.value)
-            }
-            onKeyDown={enableSearchButton ? handleKeyDown : undefined}
-            className='h-8 w-37.5 lg:w-62.5'
-          />
+          <div className='relative'>
+            <Input
+              placeholder={searchPlaceholder}
+              value={
+                enableSearchButton
+                  ? localGlobalFilter
+                  : (table.getState().globalFilter ?? '')
+              }
+              onChange={(event) =>
+                enableSearchButton
+                  ? setLocalGlobalFilter(event.target.value)
+                  : table.setGlobalFilter(event.target.value)
+              }
+              onKeyDown={enableSearchButton ? handleKeyDown : undefined}
+              className='h-8 w-37.5 pr-7 lg:w-62.5'
+            />
+            {(enableSearchButton
+              ? localGlobalFilter
+              : (table.getState().globalFilter ?? '')) && (
+              <button
+                type='button'
+                onClick={() =>
+                  enableSearchButton
+                    ? setLocalGlobalFilter('')
+                    : table.setGlobalFilter('')
+                }
+                className='absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground'
+                aria-label='清除筛选'
+              >
+                <Cross2Icon className='h-3.5 w-3.5' />
+              </button>
+            )}
+          </div>
         )}
         <div className='flex gap-x-2'>
           {filters.map((filter) => {

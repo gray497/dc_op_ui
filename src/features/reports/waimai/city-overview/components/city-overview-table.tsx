@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { MixerHorizontalIcon } from '@radix-ui/react-icons'
 import {
   type Column,
   type ColumnFiltersState,
@@ -20,6 +21,7 @@ import { cn } from '@/lib/utils'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
   Table,
   TableBody,
@@ -29,7 +31,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { type CityOverviewRow } from '../data/schema'
-import { cityOverviewColumns } from './city-overview-columns'
+import { TAB_CONFIG, type TabValue } from './city-overview-columns'
 
 // ── Props ─────────────────────────────────────────────────────────────────────
 
@@ -44,7 +46,6 @@ interface CityOverviewTableProps {
   isLoading?: boolean
   isError?: boolean
   onRetry?: () => void
-  // 来自 useTableUrlState
   columnFilters: ColumnFiltersState
   onColumnFiltersChange: OnChangeFn<ColumnFiltersState>
   pagination: PaginationState
@@ -61,14 +62,10 @@ function getPinnedStyle(column: Column<CityOverviewRow>): React.CSSProperties {
   return {
     position: 'sticky',
     left: `${column.getStart('left')}px`,
-    zIndex: 2,
+    zIndex: 3,
   }
 }
 
-/**
- * 对于多级表头中的分组列（group column），检查其所有叶子列是否都被 pin 住。
- * 如果是，则该分组 header 也需要 sticky，left 取第一个叶子列的 getStart('left')。
- */
 function getGroupHeaderPinnedStyle(
   header: import('@tanstack/react-table').Header<CityOverviewRow, unknown>
 ): React.CSSProperties {
@@ -76,11 +73,10 @@ function getGroupHeaderPinnedStyle(
   if (leafColumns.length === 0) return {}
   const allPinned = leafColumns.every((col) => col.getIsPinned() === 'left')
   if (!allPinned) return {}
-  const leftmost = leafColumns[0]
   return {
     position: 'sticky',
-    left: `${leftmost.getStart('left')}px`,
-    zIndex: 2,
+    left: `${leafColumns[0].getStart('left')}px`,
+    zIndex: 3,
   }
 }
 
@@ -92,9 +88,6 @@ function getPinnedClass(
   return cn('bg-background', isLastPinned && 'shadow-[2px_0_4px_-2px_rgba(0,0,0,0.15)]')
 }
 
-/**
- * 分组 header 的背景色（当所有子列都 pinned 时）
- */
 function getGroupHeaderPinnedClass(
   header: import('@tanstack/react-table').Header<CityOverviewRow, unknown>
 ): string {
@@ -104,9 +97,13 @@ function getGroupHeaderPinnedClass(
   return allPinned ? 'bg-background' : ''
 }
 
-// ── 组件 ──────────────────────────────────────────────────────────────────────
+// ── 单个 Tab 的表格 ───────────────────────────────────────────────────────────
 
-export function CityOverviewTable({
+interface TabTableProps extends CityOverviewTableProps {
+  tabValue: TabValue
+}
+
+function TabTable({
   data,
   isLoading,
   isError,
@@ -117,17 +114,35 @@ export function CityOverviewTable({
   onPaginationChange,
   ensurePageInRange,
   filterOptions,
-}: CityOverviewTableProps) {
+  tabValue,
+}: TabTableProps) {
+  const tabConfig = TAB_CONFIG.find((t) => t.value === tabValue)!
   const [sorting, setSorting] = useState<SortingState>([])
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+    tabConfig.defaultVisibility
+  )
   const [columnPinning] = useState<ColumnPinningState>({
-    left: ['#', 'report_date', 'city_short_name', 'merchant_type_group'],
+    left: [
+      '#',
+      'report_date',
+      'city_short_name',
+      'city_name',
+      'city_level',
+      'region',
+      'manager',
+      'merchant_type_group',
+    ],
   })
+
+  // 切换 tab 时重置列可见性为该 tab 的默认值
+  useEffect(() => {
+    setColumnVisibility(tabConfig.defaultVisibility)
+  }, [tabValue, tabConfig.defaultVisibility])
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
-    columns: cityOverviewColumns,
+    columns: tabConfig.columns,
     state: {
       sorting,
       columnVisibility,
@@ -148,20 +163,15 @@ export function CityOverviewTable({
     enableMultiSort: true,
   })
 
-  // 筛选后页码越界时自动跳回第 1 页
   const pageCount = table.getPageCount()
   useEffect(() => {
     ensurePageInRange(pageCount)
   }, [pageCount, ensurePageInRange])
 
-  // 最后一个冻结列 id
   const pinnedColumns = table.getLeftLeafColumns()
   const lastPinnedColumnId = pinnedColumns[pinnedColumns.length - 1]?.id
 
-  // ── TableBody 内容 ──────────────────────────────────────────────────────────
-
   function renderTableBody() {
-    // 加载中：骨架屏
     if (isLoading) {
       return Array.from({ length: pagination.pageSize }).map((_, i) => (
         <TableRow key={i}>
@@ -177,7 +187,6 @@ export function CityOverviewTable({
       ))
     }
 
-    // 错误状态
     if (isError) {
       return (
         <TableRow>
@@ -194,7 +203,6 @@ export function CityOverviewTable({
       )
     }
 
-    // 空数据
     if (table.getRowModel().rows.length === 0) {
       return (
         <TableRow>
@@ -211,7 +219,6 @@ export function CityOverviewTable({
       )
     }
 
-    // 正常数据行
     return table.getRowModel().rows.map((row) => (
       <TableRow key={row.id}>
         {row.getVisibleCells().map((cell) => (
@@ -231,13 +238,12 @@ export function CityOverviewTable({
     ))
   }
 
-  // ── 渲染 ────────────────────────────────────────────────────────────────────
-
   return (
     <div className='flex flex-1 flex-col gap-4'>
       {filterOptions && (
         <DataTableToolbar
           table={table}
+          enableSearchButton={true}
           filters={[
             {
               columnId: 'city_short_name',
@@ -257,23 +263,29 @@ export function CityOverviewTable({
           ]}
         />
       )}
+      {tabConfig.showHiddenTip && (
+        <p className='flex items-center gap-1.5 text-xs text-muted-foreground'>
+          <MixerHorizontalIcon className='h-3.5 w-3.5 shrink-0' />
+          部分列默认已隐藏，点击右上角
+          <span className='inline-flex items-center gap-0.5 rounded border px-1 py-0.5 font-medium text-foreground'>
+            <MixerHorizontalIcon className='h-3 w-3' />
+            视图
+          </span>
+          按钮可切换显示。
+        </p>
+      )}
       <div className='rounded-md border'>
         <Table className='min-w-max'>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
-                  // leaf column：直接用 column pinning 样式
-                  // group column：检查所有子列是否都 pinned
                   const isLeaf = header.column.getLeafColumns().length <= 1
                   const pinnedStyle = isLeaf
                     ? getPinnedStyle(header.column)
                     : getGroupHeaderPinnedStyle(header)
                   const pinnedClass = isLeaf
-                    ? getPinnedClass(
-                        header.column,
-                        header.column.id === lastPinnedColumnId
-                      )
+                    ? getPinnedClass(header.column, header.column.id === lastPinnedColumnId)
                     : getGroupHeaderPinnedClass(header)
 
                   return (
@@ -305,6 +317,30 @@ export function CityOverviewTable({
       {!isLoading && !isError && table.getPageCount() > 1 && (
         <DataTablePagination table={table} className='mt-auto' />
       )}
+    </div>
+  )
+}
+
+// ── 主组件（带 Tabs） ─────────────────────────────────────────────────────────
+
+export function CityOverviewTable(props: CityOverviewTableProps) {
+  const [activeTab, setActiveTab] = useState<TabValue>('pnl')
+
+  return (
+    <div className='flex flex-1 flex-col gap-4'>
+      <Tabs
+        value={activeTab}
+        onValueChange={(v) => setActiveTab(v as TabValue)}
+      >
+        <TabsList>
+          {TAB_CONFIG.map((tab) => (
+            <TabsTrigger key={tab.value} value={tab.value}>
+              {tab.label}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </Tabs>
+      <TabTable {...props} tabValue={activeTab} />
     </div>
   )
 }

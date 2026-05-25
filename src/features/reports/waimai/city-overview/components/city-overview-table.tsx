@@ -59,9 +59,12 @@ interface CityOverviewTableProps {
 function getPinnedStyle(column: Column<CityOverviewRow>): React.CSSProperties {
   const isPinned = column.getIsPinned()
   if (!isPinned) return {}
+  const width = column.getSize()
   return {
     position: 'sticky',
     left: `${column.getStart('left')}px`,
+    width: `${width}px`,
+    minWidth: `${width}px`,
     zIndex: 3,
     backgroundColor: 'var(--background)',
   }
@@ -74,9 +77,12 @@ function getGroupHeaderPinnedStyle(
   if (leafColumns.length === 0) return {}
   const allPinned = leafColumns.every((col) => col.getIsPinned() === 'left')
   if (!allPinned) return {}
+  const totalWidth = leafColumns.reduce((sum, c) => sum + c.getSize(), 0)
   return {
     position: 'sticky',
     left: `${leafColumns[0].getStart('left')}px`,
+    width: `${totalWidth}px`,
+    minWidth: `${totalWidth}px`,
     zIndex: 3,
     backgroundColor: 'var(--background)',
   }
@@ -222,19 +228,32 @@ function TabTable({
 
     return table.getRowModel().rows.map((row) => (
       <TableRow key={row.id}>
-        {row.getVisibleCells().map((cell) => (
-          <TableCell
-            key={cell.id}
-            style={getPinnedStyle(cell.column)}
-            className={cn(
-              getPinnedClass(cell.column, cell.column.id === lastPinnedColumnId),
-              cell.column.columnDef.meta?.className,
-              cell.column.columnDef.meta?.tdClassName
-            )}
-          >
-            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-          </TableCell>
-        ))}
+        {row.getVisibleCells().map((cell) => {
+          const isPinned = cell.column.getIsPinned()
+          const width = cell.column.getSize()
+          return (
+            <TableCell
+              key={cell.id}
+              style={
+                isPinned
+                  ? getPinnedStyle(cell.column)
+                  : {
+                      width: `${width}px`,
+                      minWidth: `${width}px`,
+                      backgroundColor: 'var(--background)',
+                    }
+              }
+              className={cn(
+                'border-b border-border',
+                getPinnedClass(cell.column, cell.column.id === lastPinnedColumnId),
+                cell.column.columnDef.meta?.className,
+                cell.column.columnDef.meta?.tdClassName
+              )}
+            >
+              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+            </TableCell>
+          )
+        })}
       </TableRow>
     ))
   }
@@ -276,7 +295,7 @@ function TabTable({
         </p>
       )}
       <div className='rounded-md border'>
-        <Table className='min-w-max'>
+        <Table className='min-w-max border-separate border-spacing-0'>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -288,13 +307,30 @@ function TabTable({
                   const pinnedClass = isLeaf
                     ? getPinnedClass(header.column, header.column.id === lastPinnedColumnId)
                     : getGroupHeaderPinnedClass(header)
+                  const isPinned = pinnedStyle.position === 'sticky'
+
+                  // 非 pinned 表头：leaf 列设置宽度；group header 不设宽度（让 colspan 自动撑开）
+                  let style: React.CSSProperties
+                  if (isPinned) {
+                    style = pinnedStyle
+                  } else if (isLeaf) {
+                    const width = header.column.getSize()
+                    style = {
+                      width: `${width}px`,
+                      minWidth: `${width}px`,
+                      backgroundColor: 'var(--background)',
+                    }
+                  } else {
+                    style = { backgroundColor: 'var(--background)' }
+                  }
 
                   return (
                     <TableHead
                       key={header.id}
                       colSpan={header.colSpan}
-                      style={pinnedStyle}
+                      style={style}
                       className={cn(
+                        'border-b border-border',
                         pinnedClass,
                         header.column.columnDef.meta?.className,
                         header.column.columnDef.meta?.thClassName

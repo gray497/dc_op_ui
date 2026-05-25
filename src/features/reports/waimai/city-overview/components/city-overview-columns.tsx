@@ -75,33 +75,33 @@ export const basicColumns: ColumnDef<CityOverviewRow>[] = [
     enableHiding: false,
     enableColumnFilter: false,
     size: 50,
-    minSize: 50,
+    size: 50,
     meta: { className: 'bg-muted/50 text-center' },
   },
   {
     id: 'group_basic',
     header: '基础维度',
     columns: [
-      { accessorKey: 'report_date', header: '日期', minSize: 100 },
+      { accessorKey: 'report_date', header: '日期', size: 100 },
       {
         accessorKey: 'city_short_name',
         header: '城市简称',
-        minSize: 80,
+        size: 80,
         filterFn: (row, id, value: string[]) => value.includes(row.getValue(id)),
       },
-      { accessorKey: 'city_name', header: '美团系统城市名称', minSize: 120 },
-      { accessorKey: 'city_level', header: '城市等级', minSize: 80 },
+      { accessorKey: 'city_name', header: '美团系统城市名称', size: 120 },
+      { accessorKey: 'city_level', header: '城市等级', size: 80 },
       {
         accessorKey: 'region',
         header: '区域',
-        minSize: 80,
+        size: 80,
         filterFn: (row, id, value: string[]) => value.includes(row.getValue(id)),
       },
-      { accessorKey: 'manager', header: '负责人', minSize: 80 },
+      { accessorKey: 'manager', header: '负责人', size: 80 },
       {
         accessorKey: 'merchant_type_group',
         header: '商家类型',
-        minSize: 100,
+        size: 100,
         filterFn: (row, id, value: string[]) => value.includes(row.getValue(id)),
       },
     ],
@@ -119,13 +119,13 @@ const pnlColumns: ColumnDef<CityOverviewRow>[] = [
         accessorKey: 'revenue_total',
         header: ({ column }) => <DataTableColumnHeader column={column} title='线上账单收入合计' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 120,
+        size: 120,
       },
       {
         accessorKey: 'cost_total',
         header: ({ column }) => <DataTableColumnHeader column={column} title='线上账单成本合计' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 120,
+        size: 120,
       },
       {
         accessorKey: 'gross_profit',
@@ -134,7 +134,7 @@ const pnlColumns: ColumnDef<CityOverviewRow>[] = [
           const v = getValue<number | null>()
           return <span className={getProfitColorClass(v)}>{formatNumber(v)}</span>
         },
-        minSize: 120,
+        size: 120,
       },
       {
         accessorKey: 'gross_profit_rate',
@@ -145,7 +145,7 @@ const pnlColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatPercent(getValue<number | null>()),
-        minSize: 100,
+        size: 100,
       },
     ],
   },
@@ -157,25 +157,25 @@ const pnlColumns: ColumnDef<CityOverviewRow>[] = [
         accessorKey: 'order_count_consume',
         header: ({ column }) => <DataTableColumnHeader column={column} title='消费订单量' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 100,
+        size: 100,
       },
       {
         accessorKey: 'order_count_bill',
         header: ({ column }) => <DataTableColumnHeader column={column} title='线上账单订单量' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 120,
+        size: 120,
       },
       {
         accessorKey: 'order_count_tn',
         header: ({ column }) => <DataTableColumnHeader column={column} title='T-n线上账单订单量' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 130,
+        size: 130,
       },
       {
         accessorKey: 'order_count_tn_plus',
         header: ({ column }) => <DataTableColumnHeader column={column} title='T+n线上账单订单量' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 130,
+        size: 130,
       },
       {
         accessorKey: 'order_count_tn_ratio',
@@ -186,7 +186,7 @@ const pnlColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatPercent(getValue<number | null>()),
-        minSize: 130,
+        size: 130,
       },
       {
         accessorKey: 'order_count_tn_plus_ratio',
@@ -197,7 +197,7 @@ const pnlColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatPercent(getValue<number | null>()),
-        minSize: 130,
+        size: 130,
       },
     ],
   },
@@ -217,25 +217,25 @@ const merchantHealthColumns: ColumnDef<CityOverviewRow>[] = [
         accessorKey: 'merchant_count_total',
         header: ({ column }) => <DataTableColumnHeader column={column} title='全量商家数' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 100,
+        size: 100,
       },
       {
         accessorKey: 'merchant_count_fee_gt0',
         header: ({ column }) => <DataTableColumnHeader column={column} title='商家服务费>0商家数' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 140,
+        size: 140,
       },
       {
         accessorKey: 'merchant_count_profit_gte0',
         header: ({ column }) => <DataTableColumnHeader column={column} title='线上账单毛利≥0商家数' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 150,
+        size: 150,
       },
       {
         accessorKey: 'merchant_count_profit_lt0',
         header: ({ column }) => <DataTableColumnHeader column={column} title='线上账单毛利<0商家数' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 150,
+        size: 150,
       },
       {
         accessorKey: 'merchant_ratio_fee_gt0',
@@ -246,7 +246,7 @@ const merchantHealthColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatPercent(getValue<number | null>()),
-        minSize: 150,
+        size: 150,
       },
       {
         accessorKey: 'merchant_ratio_profit_gte0',
@@ -257,7 +257,7 @@ const merchantHealthColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatPercent(getValue<number | null>()),
-        minSize: 170,
+        size: 170,
       },
       {
         accessorKey: 'merchant_ratio_profit_lt0',
@@ -268,13 +268,13 @@ const merchantHealthColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatPercent(getValue<number | null>()),
-        minSize: 170,
+        size: 170,
       },
       {
         accessorKey: 'merchant_count_gtv0_fee0',
         header: ({ column }) => <DataTableColumnHeader column={column} title='消费GTV=0且服务费=0商家数' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 190,
+        size: 190,
       },
       {
         accessorKey: 'merchant_ratio_gtv0_fee0',
@@ -285,19 +285,19 @@ const merchantHealthColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatPercent(getValue<number | null>()),
-        minSize: 200,
+        size: 200,
       },
       {
         accessorKey: 'merchant_count_gtv0_fee_gt0',
         header: ({ column }) => <DataTableColumnHeader column={column} title='消费GTV=0且服务费>0商家数' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 200,
+        size: 200,
       },
       {
         accessorKey: 'merchant_count_gtv_gt0_fee0',
         header: ({ column }) => <DataTableColumnHeader column={column} title='消费GTV>0且服务费=0商家数' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 190,
+        size: 190,
       },
     ],
   },
@@ -312,7 +312,7 @@ const merchantHealthColumns: ColumnDef<CityOverviewRow>[] = [
           const v = getValue<number | null>()
           return <span className={getProfitColorClass(v)}>{formatNumber(v)}</span>
         },
-        minSize: 190,
+        size: 190,
       },
       {
         accessorKey: 'loss_profit_proxy',
@@ -321,7 +321,7 @@ const merchantHealthColumns: ColumnDef<CityOverviewRow>[] = [
           const v = getValue<number | null>()
           return <span className={getProfitColorClass(v)}>{formatNumber(v)}</span>
         },
-        minSize: 120,
+        size: 120,
       },
       {
         accessorKey: 'loss_profit_runner',
@@ -330,7 +330,7 @@ const merchantHealthColumns: ColumnDef<CityOverviewRow>[] = [
           const v = getValue<number | null>()
           return <span className={getProfitColorClass(v)}>{formatNumber(v)}</span>
         },
-        minSize: 120,
+        size: 120,
       },
       {
         accessorKey: 'loss_profit_merchant_delivery',
@@ -339,7 +339,7 @@ const merchantHealthColumns: ColumnDef<CityOverviewRow>[] = [
           const v = getValue<number | null>()
           return <span className={getProfitColorClass(v)}>{formatNumber(v)}</span>
         },
-        minSize: 140,
+        size: 140,
       },
       {
         accessorKey: 'loss_profit_other',
@@ -348,7 +348,7 @@ const merchantHealthColumns: ColumnDef<CityOverviewRow>[] = [
           const v = getValue<number | null>()
           return <span className={getProfitColorClass(v)}>{formatNumber(v)}</span>
         },
-        minSize: 140,
+        size: 140,
       },
     ],
   },
@@ -374,7 +374,7 @@ const feeRateColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 180,
+        size: 180,
       },
       {
         accessorKey: 'fee_rate_diff_neg_inf_to_neg10',
@@ -385,7 +385,7 @@ const feeRateColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 170,
+        size: 170,
       },
       {
         accessorKey: 'fee_rate_diff_neg10_to_neg5',
@@ -396,7 +396,7 @@ const feeRateColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 170,
+        size: 170,
       },
       {
         accessorKey: 'fee_rate_diff_neg5_to_neg1',
@@ -407,7 +407,7 @@ const feeRateColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 160,
+        size: 160,
       },
       {
         accessorKey: 'fee_rate_diff_neg1_to_0',
@@ -418,7 +418,7 @@ const feeRateColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 160,
+        size: 160,
       },
       {
         accessorKey: 'fee_rate_diff_0_to_5',
@@ -429,7 +429,7 @@ const feeRateColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 150,
+        size: 150,
       },
       {
         accessorKey: 'fee_rate_diff_5_to_10',
@@ -440,7 +440,7 @@ const feeRateColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 160,
+        size: 160,
       },
       {
         accessorKey: 'fee_rate_diff_10_to_inf',
@@ -451,7 +451,7 @@ const feeRateColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 160,
+        size: 160,
       },
     ],
   },
@@ -468,7 +468,7 @@ const feeRateColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 200,
+        size: 200,
       },
       {
         accessorKey: 'phf_income_0_to_3p5',
@@ -479,7 +479,7 @@ const feeRateColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 150,
+        size: 150,
       },
       {
         accessorKey: 'phf_income_3p5_to_4p0',
@@ -490,7 +490,7 @@ const feeRateColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 160,
+        size: 160,
       },
       {
         accessorKey: 'phf_income_4p0_to_4p5',
@@ -501,7 +501,7 @@ const feeRateColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 160,
+        size: 160,
       },
       {
         accessorKey: 'phf_income_4p5_to_5p0',
@@ -512,7 +512,7 @@ const feeRateColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 160,
+        size: 160,
       },
       {
         accessorKey: 'phf_income_5p0_to_6p0',
@@ -523,7 +523,7 @@ const feeRateColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 160,
+        size: 160,
       },
       {
         accessorKey: 'phf_income_6p0_to_inf',
@@ -534,7 +534,7 @@ const feeRateColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 160,
+        size: 160,
       },
     ],
   },
@@ -551,7 +551,7 @@ const feeRateColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 200,
+        size: 200,
       },
     ],
   },
@@ -586,13 +586,13 @@ const subsidyColumns: ColumnDef<CityOverviewRow>[] = [
         accessorKey: 'gtv_b',
         header: ({ column }) => <DataTableColumnHeader column={column} title='消费GTV原价B端' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 140,
+        size: 140,
       },
       {
         accessorKey: 'subsidy_b',
         header: ({ column }) => <DataTableColumnHeader column={column} title='代理商补贴金额B端' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 150,
+        size: 150,
       },
       {
         accessorKey: 'subsidy_rate_b',
@@ -603,19 +603,19 @@ const subsidyColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatPercent(getValue<number | null>()),
-        minSize: 150,
+        size: 150,
       },
       {
         accessorKey: 'gtv_c',
         header: ({ column }) => <DataTableColumnHeader column={column} title='消费GTV原价C端' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 140,
+        size: 140,
       },
       {
         accessorKey: 'subsidy_c',
         header: ({ column }) => <DataTableColumnHeader column={column} title='代理商补贴金额C端' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 150,
+        size: 150,
       },
       {
         accessorKey: 'subsidy_rate_c',
@@ -626,7 +626,7 @@ const subsidyColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatPercent(getValue<number | null>()),
-        minSize: 150,
+        size: 150,
       },
     ],
   },
@@ -643,7 +643,7 @@ const subsidyColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 160,
+        size: 160,
       },
       {
         accessorKey: 'partner_subsidy_rate_5_to_7',
@@ -654,7 +654,7 @@ const subsidyColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 160,
+        size: 160,
       },
       {
         accessorKey: 'partner_subsidy_rate_7_to_10',
@@ -665,7 +665,7 @@ const subsidyColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 160,
+        size: 160,
       },
       {
         accessorKey: 'partner_subsidy_rate_10_to_inf',
@@ -676,7 +676,7 @@ const subsidyColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 170,
+        size: 170,
       },
     ],
   },
@@ -693,7 +693,7 @@ const subsidyColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 120,
+        size: 120,
       },
       {
         accessorKey: 'merchant_partner_ratio_1_to_2',
@@ -704,7 +704,7 @@ const subsidyColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 120,
+        size: 120,
       },
       {
         accessorKey: 'merchant_partner_ratio_2_to_3',
@@ -715,7 +715,7 @@ const subsidyColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 120,
+        size: 120,
       },
       {
         accessorKey: 'merchant_partner_ratio_3_to_4',
@@ -726,7 +726,7 @@ const subsidyColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 120,
+        size: 120,
       },
       {
         accessorKey: 'merchant_partner_ratio_4_to_5',
@@ -737,7 +737,7 @@ const subsidyColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 120,
+        size: 120,
       },
       {
         accessorKey: 'merchant_partner_ratio_5_to_inf',
@@ -748,7 +748,7 @@ const subsidyColumns: ColumnDef<CityOverviewRow>[] = [
           />
         ),
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 130,
+        size: 130,
       },
     ],
   },
@@ -780,55 +780,55 @@ const abnormalColumns: ColumnDef<CityOverviewRow>[] = [
         accessorKey: 'abnormal_order_total',
         header: ({ column }) => <DataTableColumnHeader column={column} title='商家原因异常单合计' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 150,
+        size: 150,
       },
       {
         accessorKey: 'abnormal_no_accept',
         header: ({ column }) => <DataTableColumnHeader column={column} title='商家不接单订单量' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 140,
+        size: 140,
       },
       {
         accessorKey: 'abnormal_reject',
         header: ({ column }) => <DataTableColumnHeader column={column} title='商家拒单订单量' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 130,
+        size: 130,
       },
       {
         accessorKey: 'abnormal_cancel_no_notify',
         header: ({ column }) => <DataTableColumnHeader column={column} title='商家取消不告知订单量' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 160,
+        size: 160,
       },
       {
         accessorKey: 'abnormal_status',
         header: ({ column }) => <DataTableColumnHeader column={column} title='商家异常经营状态订单量' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 170,
+        size: 170,
       },
       {
         accessorKey: 'abnormal_delay',
         header: ({ column }) => <DataTableColumnHeader column={column} title='商家配送延迟订单量' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 150,
+        size: 150,
       },
       {
         accessorKey: 'abnormal_wrong_meal',
         header: ({ column }) => <DataTableColumnHeader column={column} title='商家少餐错餐订单量' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 150,
+        size: 150,
       },
       {
         accessorKey: 'abnormal_complaint',
         header: ({ column }) => <DataTableColumnHeader column={column} title='商家违规投诉订单量' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 150,
+        size: 150,
       },
       {
         accessorKey: 'abnormal_bad_review',
         header: ({ column }) => <DataTableColumnHeader column={column} title='差评商家订单量' />,
         cell: ({ getValue }) => formatNumber(getValue<number | null>()),
-        minSize: 130,
+        size: 130,
       },
     ],
   },
